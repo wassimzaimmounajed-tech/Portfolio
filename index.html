@@ -555,27 +555,8 @@ footer strong{color:var(--gold);font-weight:600}
 
 
 /* ══════════════════════════════════════════════
-   PORTFOLIO V2 — Scroll Snap + Elegant Animations
+   PORTFOLIO V2 — Elegant Scroll Animations
    ══════════════════════════════════════════════ */
-
-/* Full-page scroll snapping */
-html {
-  scroll-snap-type: y proximity;
-}
-.hero {
-  scroll-snap-align: start;
-  min-height: 100vh;
-}
-section {
-  scroll-snap-align: start;
-  min-height: 100vh;
-}
-
-/* Override: on mobile skip min-height enforcement */
-@media(max-width:768px) {
-  section { min-height: auto; display: block; }
-  html { scroll-snap-type: none; }
-}
 
 /* ── Enhanced reveal animation ── */
 .reveal {
@@ -759,7 +740,7 @@ section.light-section ~ #section-dots .s-dot {
         <div class="info-row"><span class="lbl">Nationality</span><span class="val">Franco-Lebanese</span></div>
         <div class="info-row"><span class="lbl">Location</span><span class="val">Boulogne-Billancourt, France</span></div>
         <div class="info-row"><span class="lbl">Current Role</span><span class="val">PLM Engineer, Arabelle Solutions</span></div>
-        <div class="info-row"><span class="lbl">Languages</span><span class="val">Arabic &bull; English (B2) &bull; French (B1)</span></div>
+        <div class="info-row"><span class="lbl">Languages</span><span class="val">Arabic &bull; English (C1) &bull; French (B2)</span></div>
         <div class="info-row"><span class="lbl">Education</span><span class="val">M.Sc. ECN &bull; Eng. BAU</span></div>
         <div class="info-row"><span class="lbl">Relocation</span><span class="val">Open to relocation</span></div>
         <div class="info-row"><span class="lbl">Email</span><span class="val"><a href="mailto:wassim.zaimmounajed@gmail.com">wassim.zaimmounajed<br/>@gmail.com</a></span></div>
@@ -943,8 +924,8 @@ section.light-section ~ #section-dots .s-dot {
         <div class="skill-icon">&#127757;</div>
         <div class="skill-title">Languages</div>
         <div class="skill-tags">
-          <span class="s-tag">Arabic (Native)</span><span class="s-tag">English (B2)</span>
-          <span class="s-tag">French (B1)</span><span class="s-tag">Spanish (A1)</span>
+          <span class="s-tag">Arabic (Native)</span><span class="s-tag">English (C1)</span>
+          <span class="s-tag">French (B2)</span><span class="s-tag">Spanish (A1)</span>
         </div>
       </div>
     </div>
@@ -1266,12 +1247,12 @@ section.light-section ~ #section-dots .s-dot {
           </div>
           <div class="lang-item">
             <div class="lang-flag">EN</div>
-            <div><div class="lang-name">English</div><div class="lang-level">Upper-Intermediate (B2)</div></div>
+            <div><div class="lang-name">English</div><div class="lang-level">Advanced (C1)</div></div>
             <div class="lang-bar"><div class="lang-bar-fill" style="width:75%"></div></div>
           </div>
           <div class="lang-item">
             <div class="lang-flag">FR</div>
-            <div><div class="lang-name">French</div><div class="lang-level">Intermediate (B1)</div></div>
+            <div><div class="lang-name">French</div><div class="lang-level">Upper-Intermediate (B2)</div></div>
             <div class="lang-bar"><div class="lang-bar-fill" style="width:60%"></div></div>
           </div>
           <div class="lang-item">
@@ -1340,8 +1321,12 @@ section.light-section ~ #section-dots .s-dot {
 </footer>
 
 <script>
-// Scroll reveal disabled — show all immediately
-document.querySelectorAll('.reveal').forEach(r => r.classList.add('in'));
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }});
+}, {threshold:0.10});
+reveals.forEach(r => io.observe(r));
 
 // Nav background on scroll
 const nav = document.getElementById('nav');
@@ -1488,8 +1473,12 @@ window.addEventListener('scroll', () => {
 </div>
 
 <script>
-// Reveal children disabled — show all immediately
-document.querySelectorAll('.reveal-child').forEach(el => el.classList.add('in'));
+// Scroll reveal children
+const revealChildren = document.querySelectorAll('.reveal-child');
+const ioChild = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); ioChild.unobserve(e.target); }});
+}, {threshold:0.08});
+revealChildren.forEach(el => ioChild.observe(el));
 
 // ── Section progress dots ──
 const sectionIds = ['about','experience','skills','projects','education','publications','more','contact'];
